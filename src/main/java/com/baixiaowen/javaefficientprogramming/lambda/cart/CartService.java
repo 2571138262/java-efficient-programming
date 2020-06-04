@@ -1,5 +1,7 @@
 package com.baixiaowen.javaefficientprogramming.lambda.cart;
 
+import com.baixiaowen.javaefficientprogramming.lambda.cart.strategy.SkuPredicate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,10 @@ import java.util.List;
  * 购物车服务类
  */
 public class CartService {
+
+    public CartService() {
+        System.err.println("测试");
+    }
 
     // 加入到购物车中的商品信息
     private static List<Sku> cartSkuList = new ArrayList<Sku>() {
@@ -55,5 +61,84 @@ public class CartService {
      */
     public static List<Sku> getCartSkuList(){
         return cartSkuList;
+    }
+
+    /**
+     * Version 1.0.0
+     * 找出购物车中所有的电子产品
+     * @param cartSkuList
+     * @return
+     */
+    public static List<Sku> filterElectroniceSkus(List<Sku> cartSkuList){
+        List<Sku> result = new ArrayList<>();
+        for (Sku sku: cartSkuList) {
+            // 如果商品类型 等于 电子类
+            if (SkuCategoryEnum.ELECTRONICS.equals(sku.getSkuCategory())){
+                result.add(sku);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Version 2.0.0
+     * 根据传入商品类型参数，找出购物车中同种商品类型的商品列表
+     * @param cartSkuList
+     * @param category
+     * @return
+     */
+    public static List<Sku> filterSkusByCategory(List<Sku> cartSkuList, SkuCategoryEnum category){
+        List<Sku> result = new ArrayList<>();
+        for (Sku sku: cartSkuList) {
+            // 如果商品类型 等于 传入商品类型参数
+            if (category.equals(sku.getSkuCategory())){
+                result.add(sku);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Version 3.0.0
+     * 支持通过商品类型或总价来过滤商品
+     * @param cartSkuList
+     * @param category
+     * @param totalPrice
+     * @param categoryOrPrice - true: 根据商品类型, false: 根据商品总价
+     * @return
+     */
+    public static List<Sku> filterSkus(List<Sku> cartSkuList,
+                                       SkuCategoryEnum category,
+                                       Double totalPrice,
+                                       Boolean categoryOrPrice){
+        List<Sku> result = new ArrayList<>();
+        for (Sku sku: cartSkuList) {
+            // 如果根据商品类型来判断， sku类型与输入类型比较
+            // 如果根据商品总价来判断， sku总价与输入总价比较
+            if ((categoryOrPrice && category.equals(sku.getSkuCategory()))
+                    || (!categoryOrPrice && sku.getTotalPrice() > totalPrice)){
+                result.add(sku);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Version 4.0.0
+     * 根据不同的Sku判断标准，对Sku列表进行过滤
+     * @param cartSkuList
+     * @param predicate 不同的Sku判断标准策略
+     * @return
+     */
+    public static List<Sku> filterSkus(List<Sku> cartSkuList,
+                                       SkuPredicate predicate){
+        List<Sku> result = new ArrayList<>();
+        for (Sku sku: cartSkuList) {
+            // 根据不同的Sku判断标准策略，对Sku进行判断
+            if (predicate.test(sku)){
+                result.add(sku);
+            }
+        }
+        return result;
     }
 }
