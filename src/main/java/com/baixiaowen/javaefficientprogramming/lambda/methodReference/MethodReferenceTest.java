@@ -1,6 +1,7 @@
 package com.baixiaowen.javaefficientprogramming.lambda.methodReference;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,13 @@ public class MethodReferenceTest {
     public void test(){
         List<Sku> skuList = new ArrayList<>();
 
+        skuList.sort(new Comparator<Sku>() {
+            @Override
+            public int compare(Sku o1, Sku o2) {
+                return o1.skuPrice.compareTo(o2.skuPrice);
+            }
+        });
+
         skuList.sort((sku1, sku2) -> sku1.getSkuPrice() - sku2.getSkuPrice());
 
         // 类名::静态方法名
@@ -43,6 +51,7 @@ public class MethodReferenceTest {
 
 
         PriceComparator priceComparator = new PriceComparator();
+        // 指向现有对象的实例方法
         // 对象::实例方法名
         skuList.sort(priceComparator::instanceComparaPrice);
         // 展开
