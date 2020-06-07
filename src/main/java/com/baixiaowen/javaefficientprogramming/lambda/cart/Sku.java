@@ -82,4 +82,8 @@ public class Sku {
     public void setSkuCategory(Enum skuCategory) {
         this.skuCategory = skuCategory;
     }
+
+    public void peekPrint() {
+        System.out.println(getSkuName());
+    }
 }

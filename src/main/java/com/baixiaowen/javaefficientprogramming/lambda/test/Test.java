@@ -9,4 +9,13 @@ public class Test {
     public void test(){
         consumer1.accept("aaa");
     }
+
+    public static void run(){
+        System.err.println("这是测试的Runnable");
+    }
+
+    public static void main(String[] args) {
+        Runnable runnable = Test::run;
+        new Thread(runnable).start();
+    }
 }
