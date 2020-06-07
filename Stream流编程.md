@@ -1,0 +1,121 @@
+## Stream流操作
+
+### 1、实战案例: 集合与流操作对比
+* 实战：分别使用集合操作及Stream流操作，完成对实际引用场景中的数据处理。直观感受流操作带来的便捷性。
+* 具体代码可查看test中的stream包相关类
+
+
+### 2、流是什么？
+* JDK1.8引入的新成员，以声明式方式处理集合数据
+* 将基础操作链接起来，完成复杂的数据处理流水线
+* 提供透明并行处理
+
+#### 从支持 数据处理操作 的 源 生成的 元素序列 (Java8实战)
+
+### 3、流与集合的区别
+* 时间与空间
+###### 集合就相当于以前看的DVD光碟，只有把光碟放到DVD机里，才能观看整部电影
+###### 流相当于现在的流媒体播放，不用获取到整部电影的所有的数据帧，主需要获取到当前正在观看的一定时间范围内的数据帧就可以了
+###### 从这个角度上看，集合更像是一个空间上的集合存储，而流更像一个时间维度的元素的生成
+
+|集合|流|
+|---|---|
+|集合更像是一个空间上的集合存储|更像是一个时间维度的元素的生成|
+|集合面向是存储|流面向的是计算|
+
+* 只能遍历一次
+###### 集合是一个空间上的概念，所以它能遍历多次，流是一个时间上的概念，所以它只能遍历一次，再次遍历就会出现异常
+
+* 集合需要做外部迭代，流做内部迭代
+
+### 4、流的组成
+|Cart|filter|sorted|map|collect|
+|:---:|:---:|:---:|:---:|:---:|
+|数据源|中间操作|中间操作|中间操作|终止操作|
+###### 中间操作是对应的一些业务操作，
+###### 终端操作是对流数据的一个收集，可以将数据源产生的数据进行一个收集产生一个数据结构
+
+
+### 5、流操作的分类
+* 流操作分类
+    > 中间操作(Intermediate)
+    
+    > > 无状态操作       -- filter/map/peek等
+    
+    > > 有状态操作     -- distinct/sorted/limit等
+    
+    > 终端操作(Terminal)
+    
+    > > 非短路操作       -- forEach/collect/count等
+    
+    > > 短路操作         -- anyMatch/findFirst/findAny等
+    
+### 6、流的使用
+|中间操作(无状态)|中间操作(有状态)|终端操作(短路)|终端操作(非短路操作)|
+|:---:|:---:|:---:|:---:|
+|过滤(filter)|去重(distinct)|所有匹配(allMatch)|遍历(forEach)|
+|映射(map)|跳过(skip)|任意匹配(anyMatch)|归约(reduce)|
+|扁平化(flatMap)|截断(limit)|不匹配(noneMatch)|最大值(max)|
+|遍历(peek)|排序(sorted)|查找首个(findFirst)|聚合(collect)|
+| | |查找任意(findAny)|最小值(min)|
+| | | |计数(count)|    
+
+
+### 7、流的构建
+* 由值创建流
+* 由数组创建流
+* 由文件生成流
+* 由函数生成流(无限流)
+
+
+### 8、收集器
+###### 流的收集
+#### (1)简介
+* 将流中的元素累积成一个结果(数据、集合、分组)
+* 作用于终端操作collect()上
+* collect / Collector / Collectors
+
+|collect|Collector|Collectors|
+|:---:|:---:|:---:|
+|作为一个终端操作出现的，是流出现的最后一个步骤|是一个接口，collect()方法需要接收一个实现了Collector接口的收集器|工具类，帮我们提前封装了一些已经定制好的实现了Collector接口的收集器|
+
+#### (2)、预定义收集器功能
+* 将流元素归约和汇总为一个值
+* 将流元素分组
+* 将流元素分区
+
+
+### 9、归约与汇总
+* 归约(reduce) : 将Stream流中元素转换成一个     值
+* 汇总(collect) : 将Stream流中元素转换成一个    容器
+
+#### (1)、归约
+##### 将Stream流中元素转换成一个值！！！
+```java
+        Stream<Integer> integerStream = Lists.newArrayList(1,2,3).stream();
+        
+        // 求最大值
+        integerStream.mapToInt(Integer::intValue).max();
+        // 求最小值
+        
+        integerStream.mapToInt(Integer::intValue).min();
+        
+        // 求和
+        integerStream.mapToInt(Integer::intValue).sum();
+        
+```
+
+##### reduce接口参数
+```java
+        /**
+        * 归约操作接口定义
+        * @param identity - 初始值
+        * @param accumulator - 计算逻辑
+        * @param combiner - 并行执行时多个部分结果的合并方式
+        * @param <U> - 元素类型
+        * @return 
+        */
+        <U> U reduce(U identity,
+                         BiFunction<U, ? super T, U> accumulator,
+                         BinaryOperator<U> combiner);
+```
