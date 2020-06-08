@@ -155,6 +155,41 @@
     }   
 ```
 
+#### (2)、汇总
+##### 将Stream流中元素转换成一个容器！！！
+```java
+    import java.util.List;import java.util.Map;import java.util.stream.Collectors;import java.util.stream.Stream;class A {
+        void method(){
+            Stream<Integer> integerStream = Lists.newArrayList(1, 2, 3, 4).stream();
+            
+            // 转换成List集合
+            List<Integer> list = integerStream.collect(Collectors.toList());
+            // 按奇偶区分
+            Map<Boolean, List<Integer>> partitions = integerStream.collect(
+                Collectors.partitioningBy(item -> item % 2 == 0));
+            // 按元素分组
+            Map<Integer, List<Integer>> groups = integerStream.collect(Collectors.groupingBy(item -> item));
+        }
+    }   
+```
+##### collect 接口参数
+
+```java
+    class A{
+        /**
+        * 汇总操作接口定义
+        * @param supplier - 初始化结果容器
+        * @param accumulator - 添加元素到结果容器逻辑
+        * @param combiner - 并行执行时多个结果容器的合并方式
+        * @param <R> - 元素类型
+        * @return 
+        */
+        <R> R collect(Supplier<R> supplier,
+                          BiConsumer<R, ? super T> accumulator,
+                          BiConsumer<R, R> combiner);
+    }   
+```
+
 #### 总结：自定义的汇总和归约方法，在定义并行结果合并的时候，需要处理的点有很多，因为并行的时候就会涉及到线程，涉及到冲突，涉及到原子性等等，所以非常不建议自己去做这种自定义的逻辑实现
 ###### JDK为我们封装了一些非常常用的归约和汇总操作，覆盖了我们使用到的大量的场景，所以推荐使用这些
 
