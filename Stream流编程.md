@@ -119,3 +119,38 @@
                          BiFunction<U, ? super T, U> accumulator,
                          BinaryOperator<U> combiner);
 ```
+
+#### (2)、汇总
+##### 将Stream流中元素转换成一个容器！！！
+```java
+    import java.util.List;import java.util.Map;import java.util.stream.Collectors;import java.util.stream.Stream;class A {
+        void method(){
+            Stream<Integer> integerStream = Lists.newArrayList(1, 2, 3, 4).stream();
+            
+            // 转换成List集合
+            List<Integer> list = integerStream.collect(Collectors.toList());
+            // 按奇偶区分
+            Map<Boolean, List<Integer>> partitions = integerStream.collect(
+                Collectors.partitioningBy(item -> item % 2 == 0));
+            // 按元素分组
+            Map<Integer, List<Integer>> groups = integerStream.collect(Collectors.groupingBy(item -> item));
+        }
+    }   
+```
+##### collect 接口参数
+
+```java
+    class A{
+        /**
+        * 汇总操作接口定义
+        * @param supplier - 初始化结果容器
+        * @param accumulator - 添加元素到结果容器逻辑
+        * @param combiner - 并行执行时多个结果容器的合并方式
+        * @param <R> - 元素类型
+        * @return 
+        */
+        <R> R collect(Supplier<R> supplier,
+                          BiConsumer<R, ? super T> accumulator,
+                          BiConsumer<R, R> combiner);
+    }   
+```
