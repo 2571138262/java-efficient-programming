@@ -70,6 +70,8 @@ public class MethodReferenceTest {
         // 指向构造方法
         Optional.ofNullable(skuList).orElseGet(ArrayList::new);
 
+
+        skuList.sort(Comparator.comparing(sku -> sku.getSkuPrice()));
     }
 
 }
