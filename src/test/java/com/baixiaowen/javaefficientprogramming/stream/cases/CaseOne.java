@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 案例一：班级中有20名学生，每名学生有5门课的考试成绩，其中缺考的科目分数字段为空。需要找出有缺考的学生都叫什么名字。
+ * 案例一：【查找】- 班级中有20名学生，每名学生有5门课的考试成绩，其中缺考的科目分数字段为空。需要找出有缺考的学生都叫什么名字。
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CaseOne {
