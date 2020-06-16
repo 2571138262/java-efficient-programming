@@ -1,8 +1,9 @@
 package com.baixiaowen.javaefficientprogramming.lombok;
 
-import com.sun.istack.internal.NotNull;
+
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * @Getter注解
@@ -11,12 +12,14 @@ import lombok.Getter;
 //@Data
 public class GetterTest {
 
-    @Getter
-    private String field1;
+    @Getter(
+            lazy = true
+    )
+    private final String field1 = "baixiaowen";
 
     @Getter(
        value = AccessLevel.PRIVATE,
-       onMethod_= {@NotNull}
+       onMethod_= {@NonNull}
     )
     private String field2;
 
