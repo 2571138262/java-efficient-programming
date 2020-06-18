@@ -17,10 +17,12 @@ public class UserInfo {
 
     // 分组验证标识
     // 登录场景
-    public interface LoginGroup{}
+    public interface LoginGroup {
+    }
 
     // 注册场景
-    public interface RegisterGroup{}
+    public interface RegisterGroup {
+    }
 
     // 组排序场景
     @GroupSequence({
@@ -28,7 +30,8 @@ public class UserInfo {
             RegisterGroup.class,
             Default.class
     })
-    public interface Group{}
+    public interface Group {
+    }
 
 
     /**
@@ -41,6 +44,7 @@ public class UserInfo {
 
     /**
      * 用户姓名
+     *
      * @NotEmpty 不会去掉前后空格
      */
     @NotEmpty(message = "用户名称不能为空")
@@ -48,6 +52,7 @@ public class UserInfo {
 
     /**
      * 用户密码
+     *
      * @NotBlank 自动去掉字符串前后空格后验证是否为空
      */
     @NotBlank(message = "用户密码不能为空")
@@ -66,6 +71,7 @@ public class UserInfo {
     /**
      * 用户电话
      */
+    @Phone(message = "手机号不是185后头随便·")
     private String phone;
 
     /**

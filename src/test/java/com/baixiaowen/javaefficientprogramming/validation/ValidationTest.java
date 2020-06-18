@@ -63,10 +63,13 @@ public class ValidationTest {
         calendar.set(2020, 1, 1);
         userInfo.setBirthday(calendar.getTime());
 
+        userInfo.setPhone("18500000000");
+
         UserInfo friend = new UserInfo();
 //        friend.setUserId("baixw");
         friend.setUserName("baixw");
 //        friend.setEmail("2571138262@qq.com");
+        friend.setPhone("18500000000");
 
 //        userInfo.setFriends(new ArrayList(){{add(new UserInfo());}});
         userInfo.setFriends(Lists.newArrayList(friend));
@@ -77,8 +80,8 @@ public class ValidationTest {
      */
     @AfterAll
     public void print() {
-//        set.forEach(item -> System.err.println(item.getMessage()));
-        otherSet.forEach(item -> System.err.println(item.getMessage()));
+        set.forEach(item -> System.err.println(item.getMessage()));
+//        otherSet.forEach(item -> System.err.println(item.getMessage()));
     }
 
     @Test
